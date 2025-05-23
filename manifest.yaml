@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mysql123
-        image: manjudbadevops/mysqltest:1.0.0
+        image: manjudbadevops/mysqlfull:1.0.0
 ---
 
 apiVersion: v1
