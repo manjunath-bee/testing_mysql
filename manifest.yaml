@@ -24,13 +24,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql123
-  namespace: expense
-spec: 
+  name: mysql-nlb
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb    # For AWS
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"  # For internal NLB
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
   selector:
     app: mysql
-  ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
 
