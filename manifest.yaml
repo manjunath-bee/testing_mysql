@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql_test
+  name: mysql123
   namespace: expense
   labels:
     app: mysql
@@ -16,7 +16,7 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
+      - name: mysql123
         image: manjudbadevops/mysql:1.0.0
 
 ---
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql_test
+  name: mysql123
   namespace: expense
 spec: 
   type: LoadBalancer
