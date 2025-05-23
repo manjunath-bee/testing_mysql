@@ -18,8 +18,8 @@ spec:
       containers:
       - name: mysql123
         image: manjudbadevops/mysqltest:1.0.0
-         configMap:
-          name: mysql-config
+      configMap:
+        name: mysql-config
 
 ---
 
