@@ -1,23 +1,60 @@
-apiVersion: apps/v1
-kind: Deployment
+----
+ apiVersion: v1
+kind: Service
 metadata:
-  name: mysql123
+  name: mysql-headless
   namespace: expense
   labels:
     app: mysql
+    project: expense
 spec:
-  replicas: 1
+  clusterIP: None
+  selector:
+    app: mysql
+    project: expense
+  ports:
+   - protocol: TCP
+     port: 3306
+     targetPort: 3306
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: expense
+spec:
   selector:
     matchLabels:
       app: mysql
+      project: expense
+  serviceName: "mysql-headless"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
   template:
     metadata:
       labels:
         app: mysql
+        project: expense
     spec:
+      terminationGracePeriodSeconds: 10
       containers:
-      - name: mysql123
+      - name: mysql
         image: manjudbadevops/mysqlfullper:1.0.0
+        volumeMounts:
+        - name: www
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+      namespace: expense
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs-sc"
+      resources:
+        requests:
+          storage: 1Gi
+   
 ---
 
 apiVersion: v1
@@ -36,6 +73,7 @@ spec:
     protocol: TCP
   selector:
     app: mysql
+    project: expense
     
 
 
