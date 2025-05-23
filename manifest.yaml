@@ -27,7 +27,6 @@ metadata:
   name: mysql123
   namespace: expense
 spec: 
-  type: LoadBalancer
   selector:
     app: mysql
   ports:
